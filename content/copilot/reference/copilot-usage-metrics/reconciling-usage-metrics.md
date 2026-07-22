@@ -19,8 +19,9 @@ category:
 The {% data variables.product.prodname_copilot_short %} usage metrics dashboard, APIs, and export files all use the same underlying telemetry data, but they aggregate and present it differently. Understanding these differences helps you reconcile numbers across sources and trust your analysis when preparing internal reports.
 
 * The {% data variables.product.prodname_copilot_short %} usage metrics dashboards are available at the **enterprise** and **organization** level.
-* The {% data variables.product.prodname_copilot_short %} usage metrics APIs support **enterprise-, organization-, and user-level** records.
+* The {% data variables.product.prodname_copilot_short %} usage metrics APIs support **enterprise-, organization-, repository-, and user-level** records.
 * Team-level totals are not pre-aggregated. They are constructed by joining the user-teams report with the per-user usage metrics report. See [AUTOTITLE](/copilot/reference/copilot-usage-metrics/team-level-metrics).
+* Repository-level reports provide daily pull request activity for repositories with activity on the requested day. See [AUTOTITLE](/copilot/reference/copilot-usage-metrics/copilot-usage-metrics#repository-level-fields-api-only).
 
 ## Prerequisite
 
@@ -81,6 +82,6 @@ The value `Unknown` appears in some API or export breakdowns when telemetry from
 
 ## Users surfaced by server-side telemetry
 
-{% data variables.product.prodname_copilot_short %} usage metrics combine client-side and server-side telemetry to identify active users. Users confirmed as active through server-side telemetry, but for whom no client telemetry was received, are included in your active user totals (such as `daily_active_users`). However, their dimensional breakdowns (`totals_by_ide`, `totals_by_feature`, `totals_by_language_feature`, `totals_by_language_model`, `totals_by_model_feature`) and lines-of-code metrics will be empty.
+{% data variables.product.prodname_copilot_short %} usage metrics combine client-side and server-side telemetry to identify active users. Users confirmed as active through server-side telemetry, but for whom no client telemetry was received, are included in your active user totals (such as `daily_active_users`). When available, these users may also appear in `totals_by_ide` (and in per-user reports this includes the most recently detected IDE and {% data variables.product.prodname_copilot_short %} extension versions). However, other dimensional breakdowns (`totals_by_feature`, `totals_by_language_feature`, `totals_by_language_model`, `totals_by_model_feature`) and lines-of-code metrics will still be empty.
 
 This means your top-level active user counts may be higher than the sum of users reflected in the breakdown arrays. This is expected behavior and does not indicate a data error.

@@ -50,12 +50,12 @@ Organization owners{% ifversion custom-org-roles %} and users with the "Manage o
 
 Repositories are granted access to {% data variables.actions.hosted_runner %}s through runner groups. Enterprise administrators can choose which organizations are granted access to enterprise-level runner groups, and organization owners{% ifversion custom-org-roles %} and users with the "Manage organization runners and runner groups" permission{% endif %} control repository-level access to all {% data variables.actions.hosted_runner %}s.
 
-Organization owners can use and configure enterprise-level runner groups for the repositories in their organization, or they can create organization-level runner groups to control access.{% ifversion custom-org-roles %} Users with the "Manage organization runners and runner groups" can only manage organization-level runner groups. For more information, see [AUTOTITLE](/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles).{% endif %}
+Organization owners can use and configure enterprise-level runner groups for the repositories in their organization, or they can create organization-level runner groups to control access.{% ifversion custom-org-roles %} Users with the "Manage organization runners and runner groups" can only manage organization-level runner groups. For more information, see [AUTOTITLE](/organizations/managing-peoples-access-to-your-organization-with-roles/permissions-of-custom-organization-roles).{% endif %}
 
 * **For enterprise-level runner groups:** {% data reusables.actions.about-enterprise-level-runner-groups %}
 * **For organization-level runner groups:** {% data reusables.actions.about-organization-level-runner-groups %}
 
-Once a repository has access to {% data variables.actions.hosted_runner %}s, the {% data variables.actions.hosted_runner %}s can be added to workflow files. For more information, see [AUTOTITLE](/actions/using-github-hosted-runners/running-jobs-on-larger-runners).
+Once a repository has access to {% data variables.actions.hosted_runner %}s, the {% data variables.actions.hosted_runner %}s can be added to workflow files. For more information, see [AUTOTITLE](/actions/how-tos/manage-runners/larger-runners/use-larger-runners).
 
 {% data reusables.actions.runner-groups-org-navigation %}
 1. Select a runner group from either list on the page. Organization-level runner groups are listed at the top of the page, and enterprise-level runner groups are listed under "Shared by the Enterprise."
@@ -63,7 +63,7 @@ Once a repository has access to {% data variables.actions.hosted_runner %}s, the
 
 > [!WARNING]
 > {% data reusables.actions.hosted-runner-security %}
-> For more information, see [AUTOTITLE](/actions/using-github-hosted-runners/controlling-access-to-larger-runners).
+> For more information, see [AUTOTITLE](/actions/how-tos/manage-runners/larger-runners/control-access).
 
 If you want to require workflows to target runners only through runner groups, you can disable standard {% data variables.product.github %}-hosted runners at the organization or enterprise level. See [AUTOTITLE](/organizations/managing-organization-settings/disabling-or-limiting-github-actions-for-your-organization) and [AUTOTITLE](/admin/enforcing-policies/enforcing-policies-for-your-enterprise/enforcing-policies-for-github-actions-in-your-enterprise).
 
@@ -195,9 +195,11 @@ You can control the maximum number of jobs allowed to run concurrently for speci
 > * To use static IP addresses, your organization must use {% data variables.product.prodname_ghe_cloud %}. {% data reusables.enterprise.link-to-ghec-trial %}
 > * macOS {% data variables.actions.hosted_runner %}s do not support static IP addresses.
 
-You can enable static IP addresses for {% data variables.actions.hosted_runner %}s. When you do this, the {% data variables.actions.hosted_runner %}s are assigned static IP address ranges. All IP addresses in the range assigned are usable. By default, you can configure up to 10 different {% data variables.actions.hosted_runner %}s with IP ranges for your account. {% data reusables.actions.larger-runner-static-ip-contact-support %}
+You can enable static IP addresses for {% data variables.actions.hosted_runner %}s. When you do this, the {% data variables.actions.hosted_runner %}s are assigned static IP address ranges. All IP addresses in the range assigned are usable. By default, you can configure up to 10 {% data variables.actions.hosted_runner %} pools with static IP address ranges for your account. {% data reusables.actions.larger-runner-static-ip-contact-support %}
 
-The number of available IP addresses in the assigned ranges does not restrict number of concurrent jobs specified for autoscaling. Within a runner pool, there is a load balancer which allows for high reuse of the IP addresses in the assigned ranges. This ensures your workflows can run concurrently at scale while each machine is assigned a static IP address.
+Each {% data variables.actions.hosted_runner %} you create is not a single machine. It is a pool of runners that automatically scales out to handle concurrent jobs, up to the maximum concurrency you set when creating the runner. All jobs in the pool share the same static IP address range. This means a single {% data variables.actions.hosted_runner %} with one static IP range can handle many jobs running at the same time without requiring additional runners.
+
+The number of available IP addresses in the assigned ranges does not restrict the number of concurrent jobs. Within a runner pool, there is a load balancer which allows for high reuse of the IP addresses in the assigned ranges. This ensures your workflows can run concurrently at scale while each machine is assigned a static IP address.
 
 {% ifversion ghec %}
 
